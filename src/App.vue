@@ -8,28 +8,19 @@
           for="exampleInputEmail1"
           class="form-label"
         >邮箱地址</label>
-        <input
-          type="text"
-          class="form-control"
-          id="exampleInputEmail1"
-          v-model="emailRef.val"
-          @blur="validateEmail"
-        >
-        <div
-          class="form-text"
-          v-if="emailRef.error"
-        >{{emailRef.message}}</div>
+        <ValidateInput
+          :rules="emailRules"
+          v-model="emailVal"
+          placeholder="请输入邮箱"
+        />
+        {{emailVal}}
       </div>
       <div class="mb-3">
         <label
           for="exampleInputPassword1"
           class="form-label"
         >密码</label>
-        <input
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-        >
+        <ValidateInput placeholder="请输入密码" />
       </div>
     </form>
 
@@ -37,9 +28,10 @@
 </template>
 
 <script lang="ts">
+import ValidateInput, { RulesProp } from "@/components/ValidateInput.vue";
 // import ColumnList, { ColumnProps } from "@/components/ColumnList.vue";
 import GlobalHeader, { UserProps } from "@/components/GlobalHeader.vue";
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 // const testData: ColumnProps[] = [
 //   {
@@ -69,7 +61,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 //     avatar: "",
 //   },
 // ];
-
 const currentUser: UserProps = {
   isLogin: true,
   name: "viking",
@@ -82,8 +73,15 @@ export default defineComponent({
   components: {
     // ColumnList,
     GlobalHeader,
+    ValidateInput,
   },
   setup() {
+    const emailVal = ref("");
+    const emailRules: RulesProp = [
+      { type: "required", message: "电子邮箱地址不能为空" },
+      { type: "email", message: "请输入正确的电子邮箱格式" },
+    ];
+
     const emailRef = reactive({
       val: "",
       error: false,
@@ -103,6 +101,8 @@ export default defineComponent({
       currentUser,
       emailRef,
       validateEmail,
+      emailRules,
+      emailVal,
     };
   },
 });
