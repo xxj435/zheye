@@ -2,7 +2,7 @@
   <div class="container">
     <GlobalHeader :user="currentUser" />
     <!-- <ColumnList :list="list" /> -->
-    <form action="">
+    <ValidateForm @form-submit="onFormSubmit">
       <div class="mb-3">
         <label
           for="exampleInputEmail1"
@@ -13,21 +13,28 @@
           v-model="emailVal"
           placeholder="请输入邮箱"
         />
-        {{emailVal}}
       </div>
       <div class="mb-3">
         <label
           for="exampleInputPassword1"
           class="form-label"
         >密码</label>
-        <ValidateInput placeholder="请输入密码" />
+        <ValidateInput
+          placeholder="请输入密码"
+          :rules="passwordRules"
+          v-model="passwordVal"
+        />
       </div>
-    </form>
+      <template #submit>
+        <span class="btn btn-danger">Submit</span>
+      </template>
+    </ValidateForm>
 
   </div>
 </template>
 
 <script lang="ts">
+import ValidateForm from "@/components/ValidateForm.vue";
 import ValidateInput, { RulesProp } from "@/components/ValidateInput.vue";
 // import ColumnList, { ColumnProps } from "@/components/ColumnList.vue";
 import GlobalHeader, { UserProps } from "@/components/GlobalHeader.vue";
@@ -74,9 +81,15 @@ export default defineComponent({
     // ColumnList,
     GlobalHeader,
     ValidateInput,
+    ValidateForm,
   },
   setup() {
+    const inputRef = ref<any>();
     const emailVal = ref("");
+    const passwordVal = ref("");
+    const passwordRules: RulesProp = [
+      { type: "required", message: "密码不能为空" },
+    ];
     const emailRules: RulesProp = [
       { type: "required", message: "电子邮箱地址不能为空" },
       { type: "email", message: "请输入正确的电子邮箱格式" },
@@ -96,6 +109,9 @@ export default defineComponent({
         emailRef.message = "should be valid email";
       }
     };
+    const onFormSubmit = (result: boolean) => {
+      console.log("result", result);
+    };
     return {
       // list: testData,
       currentUser,
@@ -103,6 +119,10 @@ export default defineComponent({
       validateEmail,
       emailRules,
       emailVal,
+      onFormSubmit,
+      passwordVal,
+      passwordRules,
+      inputRef,
     };
   },
 });

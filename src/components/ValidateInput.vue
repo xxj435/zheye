@@ -18,7 +18,8 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, PropType } from "vue";
+import { defineComponent, reactive, PropType, onMounted } from "vue";
+import { emitter } from "@/components/ValidateForm.vue";
 // 邮箱验证
 const emailReg =
   /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(com|cn|net)$/;
@@ -55,7 +56,9 @@ export default defineComponent({
           return passed;
         });
         inputRef.error = !allPassed;
+        return allPassed;
       }
+      return true;
     };
 
     const updateInput = (e: KeyboardEvent) => {
@@ -63,7 +66,9 @@ export default defineComponent({
       inputRef.val = targetValue;
       context.emit("update:modelValue", targetValue);
     };
-
+    onMounted(() => {
+      emitter.emit("form-item-created", validateInput);
+    });
     return {
       inputRef,
       validateInput,
