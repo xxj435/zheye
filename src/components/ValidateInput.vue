@@ -67,6 +67,8 @@ export default defineComponent({
       context.emit("update:modelValue", targetValue);
     };
     onMounted(() => {
+      console.log(validateInput());
+      // 发送
       emitter.emit("form-item-created", validateInput);
     });
     return {

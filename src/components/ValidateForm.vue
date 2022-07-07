@@ -29,6 +29,7 @@ export default defineComponent({
     let funcArr: ValidateFunc[] = [];
     const submitForm = () => {
       // 循环执行数组 得到最后的验证结果
+      console.log(funcArr);
       const result = funcArr.map((func) => func()).every((result) => result);
       context.emit("form-submit", result);
     };

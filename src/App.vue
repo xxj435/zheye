@@ -72,9 +72,6 @@ const currentUser: UserProps = {
   isLogin: true,
   name: "viking",
 };
-// 邮箱验证
-const emailReg =
-  /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(com|cn|net)$/;
 export default defineComponent({
   name: "App",
   components: {
@@ -84,7 +81,6 @@ export default defineComponent({
     ValidateForm,
   },
   setup() {
-    const inputRef = ref<any>();
     const emailVal = ref("");
     const passwordVal = ref("");
     const passwordRules: RulesProp = [
@@ -100,15 +96,6 @@ export default defineComponent({
       error: false,
       message: "",
     });
-    const validateEmail = () => {
-      if (emailRef.val.trim() === "") {
-        emailRef.error = true;
-        emailRef.message = "can not be empty";
-      } else if (!emailReg.test(emailRef.val)) {
-        emailRef.error = true;
-        emailRef.message = "should be valid email";
-      }
-    };
     const onFormSubmit = (result: boolean) => {
       console.log("result", result);
     };
@@ -116,13 +103,11 @@ export default defineComponent({
       // list: testData,
       currentUser,
       emailRef,
-      validateEmail,
       emailRules,
       emailVal,
       onFormSubmit,
       passwordVal,
       passwordRules,
-      inputRef,
     };
   },
 });
