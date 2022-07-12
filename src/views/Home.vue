@@ -4,7 +4,7 @@
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
           <img
-            src="../assets/callout.svg"
+            src="@/assets/callout.svg"
             alt="callout"
             class="w-50"
           />
@@ -19,13 +19,13 @@
       </div>
     </section>
     <h4 class="font-weight-bold text-center">发现精彩</h4>
-    <column-list :list="list"></column-list>
+    <ColumnList :list="list"></ColumnList>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-// import { testData } from "../testData";
+import { testData } from "../testData";
 import ColumnList from "../components/ColumnList.vue";
 export default defineComponent({
   name: "Home",
@@ -34,7 +34,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      // list: testData,
+      list: testData,
     };
   },
 });

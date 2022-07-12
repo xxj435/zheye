@@ -8,14 +8,18 @@
       v-if="!user.isLogin"
       class="list-inline mb-0"
     >
-      <li class="list-inline-item"><a
-          href="#"
+      <li class="list-inline-item">
+        <router-link
+          to="/login"
           class="btn btn-outline-light my-2"
-        >登陆</a></li>
-      <li class="list-inline-item"><a
-          href="#"
+        >登陆</router-link>
+      </li>
+      <li class="list-inline-item">
+        <router-link
+          to="/login"
           class="btn btn-outline-light my-2"
-        >注册</a></li>
+        >注册</router-link>
+      </li>
     </ul>
     <ul
       v-else
