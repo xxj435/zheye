@@ -1,6 +1,15 @@
+<!--
+ * @Author: xxj435 861479614@qq.com
+ * @Date: 2022-07-05 21:56:25
+ * @LastEditors: xxj435 861479614@qq.com
+ * @LastEditTime: 2022-07-17 10:03:43
+ * @FilePath: \zheye\src\components\ValidateInput.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div class="validate-input-container pd-3">
     <input
+      v-if="tag != 'textarea'"
       type="text"
       class="form-control"
       :class="{'is-invalid': inputRef.error}"
@@ -9,6 +18,17 @@
       @input="updateInput"
       v-bind="$attrs"
     >
+    <textarea
+      v-else
+      type="text"
+      class="form-control"
+      :class="{'is-invalid': inputRef.error}"
+      v-model="inputRef.val"
+      @blur="validateInput"
+      @input="updateInput"
+      v-bind="$attrs"
+    >
+    </textarea>
     <span
       v-if="inputRef.error"
       class="invalid-feedback"
@@ -28,10 +48,15 @@ interface RuleProp {
   message: string;
 }
 export type RulesProp = RuleProp[];
+export type Tagtype = "input" | "textarea";
 export default defineComponent({
   props: {
     rules: Array as PropType<RulesProp>,
     modelValue: String,
+    tag: {
+      type: String as PropType<Tagtype>,
+      default: "input",
+    },
   },
   setup(props, context) {
     const inputRef = reactive({

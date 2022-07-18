@@ -6,7 +6,7 @@
     >
       <div class="col-3 text-center">
         <img
-          :src="column.avatar"
+          :src="column.avatar?.url"
           :alt="column.title"
           class="rounded-circle border w-100"
         >
@@ -16,19 +16,27 @@
         <p class="text-muted">{{column.description}}</p>
       </div>
     </div>
-    <post-list :list="list"></post-list>
+    <PostList :list="list"></PostList>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import PostList from "@/components/PostList.vue";
 export default defineComponent({
+  components: {
+    PostList,
+  },
   setup() {
     const route = useRoute();
     const store = useStore();
-    const currentId = +route.params.id;
+    const currentId = route.params.id;
+    onMounted(() => {
+      store.dispatch("fetchColumn", currentId);
+      store.dispatch("fetchPosts", currentId);
+    });
     const column = computed(() => store.getters.getColumnById(currentId));
     const list = computed(() => store.getters.getPostsByCid(currentId));
     return {
