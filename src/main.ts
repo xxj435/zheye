@@ -14,8 +14,8 @@ import axios from 'axios'
 const icode = 'AC7919CF07046FEF'; // 项目验证码
 // 替换 baseURL
 axios.defaults.baseURL = 'http://apis.imooc.com/api/'
-// 下面的 icode 值是从慕课网获取的 token 值，可以在课程右侧的项目接口校验码找到
 axios.interceptors.request.use(config => {
+  // 请求前加载中状态
   store.commit('setLoading', true);
   // get 请求，添加到 url 中
   config.params = { ...config.params, icode }
@@ -31,6 +31,7 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(config => {
+  // 请求完成取消加载中状态
   store.commit('setLoading', false)
   return config
 })

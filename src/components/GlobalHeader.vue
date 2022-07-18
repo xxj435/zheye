@@ -29,7 +29,7 @@
           href="#"
           class="btn btn-outline-light my-2"
         >你好 {{user.name}}</a></li> -->
-      <Dropdown :title="`您好 ${user.name}`">
+      <Dropdown :title="`您好 ${user.nickName}`">
         <DropdownItem>
           <a
             href="#"
@@ -63,11 +63,7 @@
 import { defineComponent, PropType } from "vue";
 import Dropdown from "@/components/Dropdown.vue";
 import DropdownItem from "@/components/DropdownItem.vue";
-export interface UserProps {
-  isLogin: boolean;
-  name?: string;
-  id?: number;
-}
+import { UserProps } from "@/store";
 export default defineComponent({
   name: "GlobalHeader",
   props: {

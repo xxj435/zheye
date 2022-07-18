@@ -7,27 +7,29 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div
-    class="d-flex justify-content-center align-items-center h-100 w-100 loading-container"
-    :style="{backgroundColor: background || ''}"
-  >
-    <div class="loading-content">
-      <div
-        class="spinner-border text-primary"
-        role="status"
-      >
-        <!-- <span class="sr-only">{{ text || 'loading'}}</span> -->
+  <teleport to='#back'>
+    <div
+      class="d-flex justify-content-center align-items-center h-100 w-100 loading-container"
+      :style="{backgroundColor: background || ''}"
+    >
+      <div class="loading-content">
+        <div
+          class="spinner-border text-primary"
+          role="status"
+        >
+          <!-- <span class="sr-only">{{ text || 'loading'}}</span> -->
+        </div>
+        <p
+          v-if="text"
+          class="text-primary small"
+        >{{text}}</p>
       </div>
-      <p
-        v-if="text"
-        class="text-primary small"
-      >{{text}}</p>
     </div>
-  </div>
+  </teleport>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onUnmounted } from "vue";
 
 export default defineComponent({
   props: {
@@ -37,6 +39,15 @@ export default defineComponent({
     background: {
       type: String,
     },
+  },
+  setup() {
+    const node = document.createElement("div");
+    node.id = "back";
+    document.body.appendChild(node);
+    // 组件卸载调用
+    onUnmounted(() => {
+      document.body.removeChild(node); // 删除
+    });
   },
 });
 </script>

@@ -9,10 +9,8 @@
 <template>
   <div class="container">
     <GlobalHeader :user="currentUser" />
-    <Loader
-      text="拼命加载中"
-      background="rgba(0,0,0, 0.8)"
-    ></Loader>
+    <!-- 加载组件 -->
+    <Loader v-if="isLoading"></Loader>
     <router-view />
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
@@ -31,7 +29,7 @@
 
 <script lang="ts">
 // import ColumnList, { ColumnProps } from "@/components/ColumnList.vue";
-import GlobalHeader, { UserProps } from "@/components/GlobalHeader.vue";
+import GlobalHeader from "@/components/GlobalHeader.vue";
 import Loader from "./components/Loader.vue";
 import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";

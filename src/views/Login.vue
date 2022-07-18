@@ -49,10 +49,15 @@ export default defineComponent({
       { type: "required", message: "密码不能为空" },
     ];
     const onFormSubmit = (result: boolean) => {
-      console.log("result", result);
       if (result) {
-        router.push({ name: "column", params: { id: 1 } });
-        store.commit("login");
+        const payload = {
+          email: emailVal.value,
+          password: passwordVal.value,
+        };
+        store.dispatch("loginAndFetch", payload).then(() => {
+          // console.log(res);
+          router.push("/");
+        });
       }
     };
     return {
