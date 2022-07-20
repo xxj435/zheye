@@ -1,3 +1,4 @@
+
 /*
  * @Author: xxj435 861479614@qq.com
  * @Date: 2022-07-17 09:32:21
@@ -38,11 +39,18 @@ export interface PostProps {
   column: string;
 }
 export interface GlobalDataProps {
+  error: GlobalErrorProps;
   loading: boolean;
   columns: ColumnProps[];
   posts: PostProps[];
   user: UserProps;
   token: string;
+}
+
+// 错误信息处理
+export interface GlobalErrorProps {
+  status: boolean;
+  message?: string;
 }
 // actions 封装
 // get
@@ -59,7 +67,10 @@ const postAndCommit = async (url: string, mutationName: string, commit: Commit, 
 }
 const store = createStore<GlobalDataProps>({
   state: {
-    token: '',
+    error: {
+      status: false
+    },
+    token: localStorage.getItem('token') || '',
     loading: false, // 加载状态
     columns: [],
     posts: [],
@@ -89,9 +100,13 @@ const store = createStore<GlobalDataProps>({
     setLoading(state, status) {
       state.loading = status
     },
+    setError(state, e: GlobalErrorProps) {
+      state.error = e
+    },
     // 获取token
     login(state, rawData) {
       state.token = rawData.data.token
+      localStorage.setItem('token', rawData.data.token)
       axios.defaults.headers.common.Authorization = `Bearer ${rawData.data.token}`
     }
   },

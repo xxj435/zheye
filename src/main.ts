@@ -34,6 +34,11 @@ axios.interceptors.response.use(config => {
   // 请求完成取消加载中状态
   store.commit('setLoading', false)
   return config
+}, e => {
+  const { error } = e.response.data;
+  store.commit('setError', { status: false, message: '' })
+  store.commit('setLoading', false)
+  return Promise.reject(error)
 })
 const app = createApp(App)
 app.use(router)

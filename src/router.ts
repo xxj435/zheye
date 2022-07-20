@@ -3,6 +3,7 @@ import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Column from '@/views/ColumnDetail.vue'
 import CreatePost from '@/views/CreatePost.vue'
+import Signup from './views/Signup.vue'
 import store from '@/store'
 const routerHistory = createWebHistory();
 const router = createRouter({
@@ -33,14 +34,19 @@ const router = createRouter({
       meta: {
         requiredLogin: true
       }
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: Signup,
+      meta: { redirectAlreadyLogin: true }
     }
   ]
 })
 
 // 进入路由之前
 router.beforeEach((to, from, next) => {
-  // 如果不是登录页 与 未登录状态  跳转到登录
-  if (to.name != 'login' && !store.state.user.isLogin) {
+  if (to.meta.requiredLogin && !store.state.user.isLogin) {
     next({ name: 'login' })
   } else if (to.meta.redirectAlreadyLogin && store.state.user.isLogin) {
     next('/')

@@ -16,7 +16,7 @@
       </li>
       <li class="list-inline-item">
         <router-link
-          to="/login"
+          to="/signup"
           class="btn btn-outline-light my-2"
         >注册</router-link>
       </li>
